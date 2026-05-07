@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTMl CSS Weather</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .weather-box{
+      width:320px;
+      background:white;
+      padding:25px;
+      border-radius:20px;
+      text-align:center;
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h1{
+      margin-bottom:20px;
+      color:#333;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      border:none;
+      outline:none;
+      border-radius:10px;
+      background:#f1f1f1;
+      font-size:16px;
+    }
+
+    button{
+      margin-top:15px;
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:#0072ff;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#0057cc;
+    }
+
+    .result{
+      margin-top:20px;
+    }
+
+    .temp{
+      font-size:40px;
+      font-weight:bold;
+      color:#0072ff;
+    }
+
+    .city{
+      font-size:24px;
+      margin-top:10px;
+      color:#333;
+    }
+
+    .weather{
+      font-size:18px;
+      margin-top:5px;
+      color:#666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="weather-box">
+
+    <h1>Check Weather Forecast</h1>
+
+    <input type="text" id="city" placeholder="Enter City Name">
+
+    <button onclick="getWeather()">Submit</button>
+
+    <div class="result">
+      <div class="temp" id="temp">--°C</div>
+      <div class="city" id="cityName">City</div>
+      <div class="weather" id="weather">Weather</div>
+    </div>
+
+  </div>
+
+<script>
+
+async function getWeather(){
+
+    let city = document.getElementById("city").value;
+
+    let apiKey = "68ca59bef887bd446a7848225331c35c";
+
+    let url =
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    let response = await fetch(url);
+
+let data = await response.json();
+
+console.log(data);
+
+if(data.cod != 200){
+
+    alert("City Not Found");
+
+    return;
+}
+
+document.getElementById("temp").innerHTML =
+Math.round(data.main.temp) + "°C";
+
+document.getElementById("cityName").innerHTML =
+data.name;
+
+document.getElementById("weather").innerHTML =
+data.weather[0].main;
+}
+
+</script>
+<!--
+
+====================================
+API, JSON, ASYNC AWAIT NOTES
+====================================
+
+1. API
+------------------------------------
+API = Application Programming Interface
+
+An API helps communication between
+an application and a server.
+
+Example:
+
+fetch("API URL")
+
+The weather app gets weather data
+from an API.
+
+Real Life Example:
+Waiter = API
+
+
+2. JSON
+------------------------------------
+JSON = JavaScript Object Notation
+
+JSON is a data transfer format.
+
+Example:
+
+{
+   "name":"Delhi",
+   "temp":35
+}
+
+Access Data:
+
+data.name
+
+Output:
+Delhi
+
+
+3. ASYNC AWAIT
+------------------------------------
+Async Await is used to handle
+asynchronous operations.
+
+async = makes a function asynchronous
+
+await = waits for the result
+
+Example:
+
+async function getData(){
+
+   let response = await fetch(url);
+
+}
+
+Meaning:
+- Request sent to API
+- Wait until data arrives
+
+
+4. WEATHER APP FLOW
+------------------------------------
+
+let response = await fetch(url);
+
+➡ Request sent to API
+
+
+let data = await response.json();
+
+➡ JSON data converted into
+JavaScript object
+
+
+data.main.temp
+
+➡ Temperature accessed
+
+====================================
+
+-->
+</body>
+</html>
